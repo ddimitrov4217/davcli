@@ -1,0 +1,79 @@
+[build-system]
+requires = ["hatchling", "versioningit"]
+build-backend = "hatchling.build"
+
+[project]
+name = "davcli"
+dynamic = ["version"]
+description = "WebDav Sync for swtrac"
+readme = "README.md"
+authors = [
+    { name = "Dimitar Lyubomirov Dimitrov", email = "ddimitrov4217@gmail.com" },
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License (GPL)",
+    "Natural Language :: Bulgarian",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Communications :: File Sharing",
+    "Topic :: System :: Archiving :: Mirroring",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "click",
+    "pytz",
+]
+
+[project.scripts]
+davcli = "davcli.__main__:cli_tools"
+
+[project.urls]
+Homepage = "https://github.com/ddimitrov4217/davcli/"
+
+[tool.hatch.version]
+source = "versioningit"
+
+[tool.versioningit.next-version]
+method = "smallest"
+
+[tool.versioningit.format]
+distance = "{base_version}.post{distance}"
+distance-dirty = "{base_version}.dev{distance}"
+dirty = "{base_version}.dev{distance}"
+
+[tool.ruff]
+line-length = 92
+output-format = "grouped"
+
+[tool.ruff.format]
+preview = true
+# quote-style = "single"
+
+[tool.ruff.lint]
+preview = false  # без все още нестабилните правила
+allowed-confusables = ["е", "с"]
+ignore = [
+    "T201",  # print found
+]
+
+mccabe.max-complexity = 10  # по подразбиране е 10
+
+[tool.ruff.lint.extend-per-file-ignores]
+# "docs/.hooks/*" = ["INP001", "T201"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["foo", "_"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/davcli",
+    "/contrib",
+    "TODO.md",
+    "README.md",
+    "Changelog",
+]
+
+# vim:et

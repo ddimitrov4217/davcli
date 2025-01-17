@@ -1,4 +1,0 @@
-include README.md
-include TODO.md
-include Changelog
-recursive-include contrib *
