@@ -1,0 +1,7 @@
+build/
+dist/
+*.swa
+*.swp
+*.egg-info
+__pycache__
+contrib/password
