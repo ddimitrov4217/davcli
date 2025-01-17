@@ -2,13 +2,14 @@
 # vim:ft=python:et:ts=4:sw=4:ai
 
 import os
+import sqlite3
 from datetime import datetime
 from getpass import getpass
-import sqlite3
+
 import click
 
-from . import WEBDAV_BASE_URL, click_settings
-from . client import MirrorClient
+from davcli import WEBDAV_BASE_URL, click_settings
+from davcli.client import MirrorClient
 
 
 @click.command('mirror', help='Mirror на папка към WebDav', context_settings=click_settings)

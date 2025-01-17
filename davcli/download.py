@@ -4,10 +4,12 @@
 import os
 import re
 from datetime import datetime
+
 import click
 from pytz import timezone
-from . import WEBDAV_BASE_URL, click_settings
-from . client import DownloadClient
+
+from davcli import WEBDAV_BASE_URL, click_settings
+from davcli.client import DownloadClient
 
 
 @click.group('download', help='Сваляне на файлове от WebDav', context_settings=click_settings)

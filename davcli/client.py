@@ -1,15 +1,16 @@
 # -*- coding: UTF-8 -*-
 # vim:ft=python:et:ts=4:sw=4:ai
 
+import http.client as http
 import os
+import ssl
+from base64 import b64encode
 from datetime import datetime
 from getpass import getpass
-from base64 import b64encode
 from urllib import parse
-import http.client as http
 from xml.etree import ElementTree as ET
+
 from pytz import timezone
-import ssl
 
 
 # http://www.webdav.org/specs/rfc4918.html

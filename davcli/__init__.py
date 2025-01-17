@@ -1,8 +1,9 @@
 # -*- coding: UTF-8 -*-
 # vim:ft=python:et:ts=4:sw=4:ai
 
-import click
 from os import environ
+
+import click
 
 click_settings = {}
 

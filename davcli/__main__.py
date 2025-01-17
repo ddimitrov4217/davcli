@@ -2,8 +2,9 @@
 # vim:ft=python:et:ts=4:sw=4:ai
 
 import click
-from . download import cli as cli_download
-from . mirror import cli as cli_mirror
+
+from davcli.download import cli as cli_download
+from davcli.mirror import cli as cli_mirror
 
 
 @click.group('tools', help='Инструменти за използване на WebDav')
