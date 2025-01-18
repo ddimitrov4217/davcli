@@ -45,7 +45,7 @@ def cli(ctx, davpath=None, davhost=None, user=None, password=None, proxy=None,
 @click.option('--dest', type=click.Path(dir_okay=True, file_okay=False, exists=True),
               help='Включва маркер дали файла в тази папка е различен')
 @click.pass_context
-def list(ctx, dest=None):
+def list(ctx, dest=None):  # noqa: A001 list си е хубаво име на команда
     client = ctx.obj['client']
     client.auth(*ctx.obj['auth'])
 

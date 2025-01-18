@@ -8,7 +8,7 @@ from base64 import b64encode
 from datetime import datetime
 from getpass import getpass
 from urllib import parse
-from xml.etree import ElementTree as ET
+from xml.etree import ElementTree
 
 from pytz import timezone
 
@@ -139,7 +139,7 @@ class DownloadClient(BaseClient):
             if res.status != 207:  # noqa: PLR2004
                 return
             ns = {'D': 'DAV:'}
-            root = ET.parse(res)
+            root = ElementTree.parse(res)
 
             for elem in root.findall('.//D:response', ns):
                 name = elem.find('D:href', ns).text
@@ -188,7 +188,7 @@ class DownloadClient(BaseClient):
             if res.status not in (200, 206):
                 return
 
-            pbar = self.progress(int(res.getheader('content-length'), 0))
+            pbar = self.Progress(int(res.getheader('content-length'), 0))
 
             while True:
                 data = res.read(20480)
@@ -200,7 +200,7 @@ class DownloadClient(BaseClient):
 
         return reader
 
-    class progress:
+    class Progress:
         def __init__(self, clength):
             self.clength = clength
             self.ulength = 0

@@ -42,7 +42,7 @@ def cli(path=None, davpath=None, upload=None, target=None, user=None, password=N
 
 
 def open_mirror_db(dbname=".webdav_mark_db"):
-    class wrapped:
+    class Wrapped:
         def __enter__(self):
             self.con = sqlite3.connect(dbname)
             self.crs = self.con.cursor()
@@ -75,7 +75,7 @@ def open_mirror_db(dbname=".webdav_mark_db"):
             self.con.commit()
 
     if not os.path.exists(dbname):
-        with wrapped() as eng:
+        with Wrapped() as eng:
             eng.con.execute("""
             create table mirror (
                 size   long not null,
@@ -84,7 +84,7 @@ def open_mirror_db(dbname=".webdav_mark_db"):
                 tstamp timestamp not null,
                 fname  varchar(2048) not null primary key)""")
 
-    return wrapped()
+    return Wrapped()
 
 
 def mark_action(no_delete_empty=False):
