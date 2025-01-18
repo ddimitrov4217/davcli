@@ -104,9 +104,9 @@ class MirrorClient(BaseClient):
             dname = '/'.join(dnames[:p+1])
             if dname not in self.created_paths:
                 status = self.propfind(dname)
-                if status == 404:
+                if status == 404:  # noqa: PLR2004
                     status = self._request('MKCOL', dname)
-                    success = success and status < 400
+                    success = success and status < 400  # noqa: PLR2004
                 if success:
                     self.created_paths.add(dname)
         return success
@@ -114,11 +114,11 @@ class MirrorClient(BaseClient):
     def put(self, fnm):
         with open(fnm, 'rb') as fin:
             status = self._request('PUT', fnm, body=fin)
-        return status < 400
+        return status < 400  # noqa: PLR2004
 
     def delete(self, fnm):
         status = self._request('DELETE', fnm)
-        return status < 400 or status == 404
+        return status < 400 or status == 404  # noqa: PLR2004
 
     def propfind(self, dname):
         query = ('<?xml version="1.0"?>'
@@ -136,7 +136,7 @@ class DownloadClient(BaseClient):
         result = []
 
         def reader(res):
-            if res.status != 207:
+            if res.status != 207:  # noqa: PLR2004
                 return
             ns = {'D': 'DAV:'}
             root = ET.parse(res)
