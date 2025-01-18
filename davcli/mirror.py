@@ -96,7 +96,7 @@ def mark_action(no_delete_empty=False):
         eng.con.commit()
 
         # (1) проверка за нови и променени файлове
-        for root, dirs, files in os.walk('.'):
+        for root, _dirs, files in os.walk('.'):
             for name in files:
                 if name.startswith('.'):
                     continue
@@ -129,7 +129,7 @@ def mark_action(no_delete_empty=False):
             for dpath in del_paths:
                 if not dpath:
                     continue
-                dpath = f'{dpath}/'
+                dpath = f'{dpath}/'  # noqa: PLW2901
                 res = c.execute("select 1 from mirror where fname like ?||'%'"
                                 "    and (action is null or action != 'DELETE')",
                                 (dpath,))
@@ -156,7 +156,8 @@ def process_action(client):
 
             if action == 'UPLOAD':
                 if client.mkcol(fnm) and client.put(fnm):
-                    size, mtime = int(os.path.getsize(fnm)), int(os.path.getmtime(fnm))
+                    size = int(os.path.getsize(fnm))  # noqa: PLW2901
+                    mtime = int(os.path.getmtime(fnm))
                     eng.done(fnm, size, mtime)
             else:
                 if client.delete(fnm):

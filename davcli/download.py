@@ -57,8 +57,8 @@ def list(ctx, dest=None):
     fmt2 = '{0:12,d}'
 
     for size, dttm, filenm, status in files:
-        status = status or ''
-        size = fmt2.format(size) if size is not None else ''
+        status = status or ''  # noqa: PLW2901
+        size = fmt2.format(size) if size is not None else ''  # noqa: PLW2901
         print(fmt1.format(size, dttm, filenm, status))
 
 
@@ -71,7 +71,7 @@ def sync(ctx, dest=None, append=None):
     client.auth(*ctx.obj['auth'])
 
     files = list_files(client, *ctx.obj['filter'], dest=dest)
-    for size, dttm, filenm, status in files:
+    for _size, _dttm, filenm, status in files:
         if status is None:
             continue
         destnm = os.path.join(dest, filenm)
@@ -121,7 +121,7 @@ def list_files(client, recursive, pattern, dest):
             result.append((size, dttm, filenm, status))
 
         if recursive:
-            for isdir, size, dttm, filenm in info:
+            for isdir, _size, _dttm, filenm in info:
                 if isdir and filenm != bpath:
                     listpath(filenm)
 
