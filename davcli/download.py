@@ -34,10 +34,7 @@ def cli(ctx, davpath=None, davhost=None, user=None, password=None, proxy=None,
     if swtrac_log_weeks:
         pattern_log = swtrac_log_pattern(last=swtrac_log_weeks)
         pattern_log = f'ssl_request_log_{pattern_log}'
-        if pattern is not None:
-            pattern = f'({pattern})|({pattern_log})'
-        else:
-            pattern = pattern_log
+        pattern = f'({pattern})|({pattern_log})' if pattern is not None else pattern_log
         print(pattern)
 
     ctx.obj['filter'] = recursive, re.compile(pattern) if pattern is not None else None
@@ -85,11 +82,7 @@ def sync(ctx, dest=None, append=None):
             with open(destnm, 'wb') as fout:
                 client.download(filenm, fout)
         else:
-            if os.path.exists(destnm):
-                dsize = os.path.getsize(destnm)
-            else:
-                dsize = 0
-
+            dsize = os.path.getsize(destnm) if os.path.exists(destnm) else 0
             with open(destnm, 'ab') as fout:
                 client.update(filenm, dsize, fout)
 
@@ -101,9 +94,8 @@ def list_files(client, recursive, pattern, dest):
         info = client.path_info(bpath)
         for fi in info:
             isdir, size, dttm, filenm = fi
-            if pattern is not None:
-                if not pattern.match(filenm):
-                    continue
+            if pattern is not None and not pattern.match(filenm):
+                continue
 
             status = None
             if dest is not None:

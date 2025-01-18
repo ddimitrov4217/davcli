@@ -159,8 +159,7 @@ def process_action(client):
                     size = int(os.path.getsize(fnm))  # noqa: PLW2901
                     mtime = int(os.path.getmtime(fnm))
                     eng.done(fnm, size, mtime)
-            else:
-                if client.delete(fnm):
-                    eng.delete(fnm)
+            elif client.delete(fnm):
+                eng.delete(fnm)
 
             print()
