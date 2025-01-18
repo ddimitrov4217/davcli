@@ -57,6 +57,10 @@ preview = false  # без все още нестабилните правила
 allowed-confusables = ["е", "с"]
 ignore = [
     "T201",  # print found
+    # XXX: Игнорирането на time зоната би могло да доведе до проблеми при mirror на папки;
+    "DTZ007",  # Naive datetime constructed using datetime.datetime.strptime() without %z
+    "DTZ006",  # datetime.datetime.fromtimestamp() called without a tz argument
+    "DTZ005",  # datetime.datetime.now() called without a tz argument
 ]
 
 mccabe.max-complexity = 10  # по подразбиране е 10
