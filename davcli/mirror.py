@@ -32,7 +32,7 @@ def cli(path=None, davpath=None, upload=None, target=None, user=None, password=N
         client = MirrorClient(davpath, target)
         client.print_headers = verbose
         if password is None:
-            password = getpass('Password for %s: ' % user)
+            password = getpass(f'Password for {user}: ')
         client.auth(user, password)
         client.proxy(proxy)
     else:
@@ -129,7 +129,7 @@ def mark_action(no_delete_empty=False):
             for dpath in del_paths:
                 if not dpath:
                     continue
-                dpath = '%s/' % dpath
+                dpath = f'{dpath}/'
                 res = c.execute("select 1 from mirror where fname like ?||'%'"
                                 "    and (action is null or action != 'DELETE')",
                                 (dpath,))
@@ -149,7 +149,7 @@ def process_action(client):
                 "order by action desc, fname desc")
 
         for fnm, action, size in res.fetchall():
-            print('{0:s} {1:,d} KB {2:s}'.format(action, size//1024, fnm))
+            print(f'{action:s} {size//1024:,d} KB {fnm:s}')
 
             if client is None:
                 continue

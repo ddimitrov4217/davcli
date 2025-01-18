@@ -34,7 +34,7 @@ class BaseClient:
 
             if self.urlp.scheme == 'https':
                 ctx = ssl.create_default_context()
-                # XXX Опционално изключване на проверката
+                # XXX: Опционално изключване на проверката
                 ctx.check_hostname = False
                 ctx.verify_mode = ssl.CERT_NONE
                 self.con = http.HTTPSConnection(conn_host, conn_port, context=ctx)
@@ -82,10 +82,10 @@ class BaseClient:
 
     def auth(self, username, password):
         if password is None:
-            password = getpass('Password for %s: ' % username)
-        authstr = '%s:%s' % (username, password)
+            password = getpass(f'Password for {username}: ')
+        authstr = f'{username}:{password}'
         authstr = b64encode(authstr.encode('UTF-8')).decode()
-        self.base_auth = {'Authorization': 'Basic %s' % authstr}
+        self.base_auth = {'Authorization': f'Basic {authstr}'}
 
     def proxy(self, proxy_str):
         if proxy_str is not None:
@@ -143,7 +143,7 @@ class DownloadClient(BaseClient):
 
             for elem in root.findall('.//D:response', ns):
                 name = elem.find('D:href', ns).text
-                name = name.replace('/%s' % self.davpath, '')
+                name = name.replace(f'/{self.davpath}', '')
                 name = parse.unquote(name)
 
                 prop = elem.find('D:propstat/D:prop', ns)
@@ -220,12 +220,10 @@ class DownloadClient(BaseClient):
                 if self.ulength//div_ <= 1:
                     break
                 div, mea = div_, mea_
-            end = '%s%s' % (' '*30, end)
+            end = '{}{}'.format(' '*30, end)
             if div > 1:
-                print('{0:d}% {1:,.2f} / {2:,.2f} {3}'.format(
-                    self.progress, self.ulength/div, self.clength/div, mea),
-                    end=end)
+                print(f'{self.progress:d}% {self.ulength/div:,.2f} / '
+                      f'{self.clength/div:,.2f} {mea}', end=end)
             else:
-                print('{0:d}% {1:,d} / {2:,d} {3}'.format(
-                    self.progress, self.ulength//div, self.clength//div, mea),
-                    end=end)
+                print(f'{self.progress:d}% {self.ulength//div:,d} / '
+                      f'{self.clength//div:,d} {mea}', end=end)

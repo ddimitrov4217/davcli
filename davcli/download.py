@@ -33,9 +33,9 @@ def cli(ctx, davpath=None, davhost=None, user=None, password=None, proxy=None,
 
     if swtrac_log_weeks:
         pattern_log = swtrac_log_pattern(last=swtrac_log_weeks)
-        pattern_log = 'ssl_request_log_%s' % pattern_log
+        pattern_log = f'ssl_request_log_{pattern_log}'
         if pattern is not None:
-            pattern = '(%s)|(%s)' % (pattern, pattern_log)
+            pattern = f'({pattern})|({pattern_log})'
         else:
             pattern = pattern_log
         print(pattern)
@@ -142,4 +142,4 @@ def swtrac_log_pattern(last):
     wlist = '|'.join(['%02d' % x for x in range(pyear, week+1)])
     patts.append('(%d-(%s))' % (year, wlist))
 
-    return '(%s)' % '|'.join(patts)
+    return '({})'.format('|'.join(patts))
